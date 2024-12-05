@@ -176,9 +176,11 @@
 /home/isucon/pprof/
 /home/isucon/snap/
 /home/isucon/tmp/
+/home/isucon/webapp/rust/target/
 /home/isucon/.*
 
 !/result/
+/result/data/
 
 # vim関連
 *~
