@@ -110,8 +110,6 @@
 /etc/pam.conf
 /etc/pam.d/
 /etc/passwd-
-/etc/pcp/
-/etc/pcp.*
 /etc/percona-toolkit/
 /etc/perl/
 /etc/pki/
