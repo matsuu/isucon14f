@@ -1,0 +1,22 @@
+#!/bin/sh
+# Generate a daily summary of process accounting.  Since this will probably
+# get kicked off in the morning, it is run against the previous day data.
+
+set -e
+
+# Our configuration file
+DEFAULT=/etc/default/sysstat
+# Default settings, overridden in the above file
+ENABLED=false
+
+# Skip in favour of systemd timer
+[ ! -d /run/systemd/system ] || exit 0
+
+[ -x /usr/lib/sysstat/sa2 ] || exit 0
+
+# Read our config
+[ -r "$DEFAULT" ] && . "$DEFAULT"
+
+[ "$ENABLED" = "true" ]  || exit 0
+
+exec /usr/lib/sysstat/sa2 -A
