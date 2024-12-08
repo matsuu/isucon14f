@@ -275,6 +275,8 @@ func chairPostRideStatus(w http.ResponseWriter, r *http.Request) {
 
 	chair := ctx.Value("chair").(*Chair)
 
+	w.Header().Set("X-Request-Pattern", "/api/chair/rides/{ride_id}/status")
+
 	req := &postChairRidesRideIDStatusRequest{}
 	if err := bindJSON(r, req); err != nil {
 		writeError(w, http.StatusBadRequest, err)

@@ -508,6 +508,7 @@ type appPostRideEvaluationResponse struct {
 func appPostRideEvaluatation(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	rideID := r.PathValue("ride_id")
+	w.Header().Set("X-Request-Pattern", "/api/app/rides/{ride_id}/evaluation")
 
 	req := &appPostRideEvaluationRequest{}
 	if err := bindJSON(r, req); err != nil {
