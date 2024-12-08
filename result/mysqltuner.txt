@@ -37,7 +37,7 @@
 ℹ  Skipped due to --cvefile option undefined
  
 -------- Performance Metrics -----------------------------------------------------------------------
-ℹ  Up for: 5h 26m 18s (13M q [707.390 qps], 727K conn, TX: 5G, RX: 1G)
+ℹ  Up for: 5h 41m 4s (15M q [756.820 qps], 728K conn, TX: 6G, RX: 1G)
 ℹ  Reads / Writes: 92% / 8%
 ℹ  Binary logging is disabled
 ℹ  Physical Memory     : 3.7G
@@ -49,15 +49,15 @@
 ✔  Maximum reached memory usage: 698.7M (18.41% of installed RAM)
 ✔  Maximum possible memory usage: 696.8M (18.36% of installed RAM)
 ✔  Overall possible memory usage with other process is compatible with memory available
-✔  Slow queries: 0% (0/13M)
+✔  Slow queries: 0% (0/15M)
 ✘  Highest connection usage: 100% (152/151)
-✔  Aborted connections: 0.00% (27/727886)
+✔  Aborted connections: 0.00% (27/728248)
 ℹ  Query cache has been removed since MySQL 8.0
-✔  Sorts requiring temporary tables: 0% (308 temp sorts / 346K sorts)
-✘  Joins performed without indexes: 233
-✔  Temporary tables created on disk: 0% (0 on disk / 517K total)
-✔  Thread cache hit rate: 69% (220K created / 727K connections)
-✔  Table cache hit rate: 99% (10M hits / 10M requests)
+✔  Sorts requiring temporary tables: 0% (311 temp sorts / 414K sorts)
+✘  Joins performed without indexes: 241
+✔  Temporary tables created on disk: 0% (0 on disk / 650K total)
+✔  Thread cache hit rate: 69% (220K created / 728K connections)
+✔  Table cache hit rate: 99% (11M hits / 11M requests)
 ✔  table_definition_cache (2000) is greater than number of tables (338)
 ✔  Open file limit used: 0% (0/10K)
 ✔  Table locks acquired immediately: 100% (2K immediate / 2K locks)
@@ -91,9 +91,9 @@
 ✔  InnoDB buffer pool instances: 1
 ℹ  Number of InnoDB Buffer Pool Chunk: 1 for 1 Buffer Pool Instance(s)
 ✔  Innodb_buffer_pool_size aligned with Innodb_buffer_pool_chunk_size & Innodb_buffer_pool_instances
-✔  InnoDB Read buffer efficiency: 100.00% (242595901 hits / 242598184 total)
-✘  InnoDB Write Log efficiency: 87.18% (7298186 hits / 8371124 total)
-✔  InnoDB log waits: 0.00% (0 waits / 1072938 writes)
+✔  InnoDB Read buffer efficiency: 100.00% (301914076 hits / 301916380 total)
+✘  InnoDB Write Log efficiency: 86.85% (7992755 hits / 9203322 total)
+✔  InnoDB log waits: 0.00% (0 waits / 1210567 writes)
  
 -------- Aria Metrics ------------------------------------------------------------------------------
 ℹ  Aria Storage Engine not available.

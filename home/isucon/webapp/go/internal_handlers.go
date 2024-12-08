@@ -26,13 +26,13 @@ func internalGetMatching(w http.ResponseWriter, r *http.Request) {
 		d := calculateDistance(ride.PickupLatitude, ride.PickupLongitude, ride.DestinationLatitude, ride.DestinationLongitude)
 		var query string
 		if d < 20 {
-			query = "SELECT * FROM chairs WHERE is_active = TRUE ORDER BY ABS(? - last_latitude)+ABS(?-last_longitude), speed ASC LIMIT 1 OFFSET ?"
+			query = "SELECT * FROM chairs WHERE is_active = TRUE ORDER BY (ABS(? - last_latitude)+ABS(?-last_longitude) + ?) / speed ASC LIMIT 1 OFFSET ?"
 		} else {
-			query = "SELECT * FROM chairs WHERE is_active = TRUE ORDER BY ABS(? - last_latitude)+ABS(?-last_longitude), speed DESC LIMIT 1 OFFSET ?"
+			query = "SELECT * FROM chairs WHERE is_active = TRUE ORDER BY (ABS(? - last_latitude)+ABS(?-last_longitude) + ?) / speed ASC LIMIT 1 OFFSET ?"
 		}
 
 		for i := 0; i < 10; i++ {
-			if err := db.GetContext(ctx, matched, query, ride.PickupLatitude, ride.PickupLongitude, i); err != nil {
+			if err := db.GetContext(ctx, matched, query, ride.PickupLatitude, ride.PickupLongitude, d, i); err != nil {
 				if errors.Is(err, sql.ErrNoRows) {
 					w.WriteHeader(http.StatusNoContent)
 					return
