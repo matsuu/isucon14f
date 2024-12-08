@@ -10,7 +10,7 @@
  
 -------- Storage Engine Statistics -----------------------------------------------------------------
 [--] Status: +ARCHIVE +BLACKHOLE +CSV -FEDERATED +InnoDB +MEMORY +MRG_MYISAM +MyISAM +PERFORMANCE_SCHEMA 
-[--] Data in InnoDB tables: 16.2M (Tables: 11)
+[--] Data in InnoDB tables: 16.3M (Tables: 11)
 [OK] Total fragmented tables: 0
  
 [OK] Currently running supported MySQL version 8.0.40-0ubuntu0.24.04.1
@@ -63,7 +63,7 @@
 [OK] NO SECURITY CVE FOUND FOR YOUR VERSION
  
 -------- Performance Metrics -----------------------------------------------------------------------
-[--] Up for: 12m 46s (2M q [2K qps], 418 conn, TX: 922M, RX: 217M)
+[--] Up for: 27m 42s (4M q [2K qps], 830 conn, TX: 1G, RX: 427M)
 [--] Reads / Writes: 94% / 6%
 [--] Binary logging is disabled
 [--] Physical Memory     : 3.7G
@@ -75,18 +75,18 @@
 [OK] Maximum reached memory usage: 599.4M (15.80% of installed RAM)
 [OK] Maximum possible memory usage: 696.7M (18.36% of installed RAM)
 [OK] Overall possible memory usage with other process is compatible with memory available
-[OK] Slow queries: 0% (0/2M)
+[OK] Slow queries: 0% (0/4M)
 [OK] Highest usage of available connections: 66% (100/151)
-[OK] Aborted connections: 0.00% (0/418)
+[OK] Aborted connections: 0.00% (0/830)
 [--] Query cache has been removed since MySQL 8.0
-[OK] Sorts requiring temporary tables: 0% (5 temp sorts / 122K sorts)
-[OK] No joins without indexes
-[OK] Temporary tables created on disk: 0% (1 on disk / 240K total)
-[!!] Thread cache hit rate: 26% (306 created / 418 connections)
-[OK] Table cache hit rate: 99% (1M hits / 1M requests)
+[OK] Sorts requiring temporary tables: 0% (10 temp sorts / 269K sorts)
+[!!] Joins performed without indexes: 6
+[OK] Temporary tables created on disk: 0% (3 on disk / 531K total)
+[!!] Thread cache hit rate: 28% (592 created / 830 connections)
+[OK] Table cache hit rate: 99% (3M hits / 3M requests)
 [OK] table_definition_cache (2000) is greater than number of tables (338)
 [OK] Open file limit used: 0% (0/10K)
-[OK] Table locks acquired immediately: 100% (10 immediate / 10 locks)
+[OK] Table locks acquired immediately: 100% (22 immediate / 22 locks)
  
 -------- Performance schema ------------------------------------------------------------------------
 [--] Performance_schema is activated.
@@ -112,15 +112,15 @@
 [--] InnoDB Thread Concurrency: 0
 [OK] InnoDB File per table is activated
 [OK] InnoDB Buffer Pool size ( 128.0M ) under limit for 64 bits architecture: (17179869184.0G )
-[OK] InnoDB buffer pool / data size: 128.0M / 16.2M
-[!!] Ratio Buffer Pool allocated / Buffer Pool Size: 13.83%
+[OK] InnoDB buffer pool / data size: 128.0M / 16.3M
+[!!] Ratio Buffer Pool allocated / Buffer Pool Size: 14.12%
 [!!] Ratio InnoDB redo log capacity / InnoDB Buffer pool size (75%): 128.0M / 128.0M should be equal to 25%
 [OK] InnoDB buffer pool instances: 1
 [--] Number of InnoDB Buffer Pool Chunk: 1 for 1 Buffer Pool Instance(s)
 [OK] Innodb_buffer_pool_size aligned with Innodb_buffer_pool_chunk_size & Innodb_buffer_pool_instances
-[OK] InnoDB Read buffer efficiency: 100.00% (105896441 hits / 105898225 total)
-[!!] InnoDB Write Log efficiency: 88.48% (747990 hits / 845421 total)
-[OK] InnoDB log waits: 0.00% (0 waits / 97431 writes)
+[OK] InnoDB Read buffer efficiency: 100.00% (242809427 hits / 242811212 total)
+[!!] InnoDB Write Log efficiency: 88.12% (1374287 hits / 1559513 total)
+[OK] InnoDB log waits: 0.00% (0 waits / 185226 writes)
  
 -------- Aria Metrics ------------------------------------------------------------------------------
 [--] Aria Storage Engine not available.
@@ -148,8 +148,11 @@ General recommendations:
     Check warning line(s) in /var/log/mysql/error.log file
     Check error line(s) in /var/log/mysql/error.log file
     MySQL was started within the last 24 hours: recommendations may be inaccurate
+    We will suggest raising the 'join_buffer_size' until JOINs not using indexes are found.
+             See https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_join_buffer_size
     Be careful, increasing innodb_redo_log_capacity means higher crash recovery mean time
 Variables to adjust:
+    join_buffer_size (> 256.0K, or always use indexes with JOINs)
     thread_cache_size (> 9)
     innodb_redo_log_capacity should be (=32M) if possible, so InnoDB Redo log Capacity equals 25% of buffer pool size.
     innodb_log_buffer_size (> 16M)
