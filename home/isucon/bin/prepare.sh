@@ -20,11 +20,9 @@ EOF
 # app
 (
   cd ${HOME}/webapp/go
-  # TODO
-  make
+  go build -o isuride
 )
-# TODO
-#sudo systemctl restart isucon.go
+sudo systemctl restart isuride-go
 
 # mysql
 sudo mysql -e "CALL sys.ps_truncate_all_tables(FALSE);"

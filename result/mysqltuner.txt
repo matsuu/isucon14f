@@ -1,0 +1,132 @@
+ >>  MySQLTuner 2.6.1
+	 * Jean-Marie Renouard <jmrenouard@gmail.com>
+	 * Major Hayden <major@mhtx.net>
+ >>  Bug reports, feature requests, and downloads at http://mysqltuner.pl/
+ >>  Run with '--help' for additional options and output filtering
+
+ℹ  Skipped version check for MySQLTuner script
+✔  Logged in using credentials from Debian maintenance account.
+✔  Operating on 64-bit architecture
+ 
+-------- Storage Engine Statistics -----------------------------------------------------------------
+ℹ  Status: +ARCHIVE +BLACKHOLE +CSV -FEDERATED +InnoDB +MEMORY +MRG_MYISAM +MyISAM +PERFORMANCE_SCHEMA 
+ℹ  Data in InnoDB tables: 3.9M (Tables: 11)
+✔  Total fragmented tables: 0
+ 
+✔  Currently running supported MySQL version 8.0.40-0ubuntu0.24.04.1
+ 
+-------- Log file Recommendations ------------------------------------------------------------------
+✔  Log file /var/log/mysql/error.log exists
+ℹ  Log file: /var/log/mysql/error.log (0B)
+ℹ  Log file /var/log/mysql/error.log is empty. Assuming log-rotation. Use --server-log={file} for explicit file
+ 
+-------- Analysis Performance Metrics --------------------------------------------------------------
+ℹ  innodb_stats_on_metadata: OFF
+✔  No stat updates during querying INFORMATION_SCHEMA.
+ 
+-------- Views Metrics -----------------------------------------------------------------------------
+ 
+-------- Triggers Metrics --------------------------------------------------------------------------
+ 
+-------- Routines Metrics --------------------------------------------------------------------------
+ 
+-------- Security Recommendations ------------------------------------------------------------------
+ℹ  Skipped due to unsupported feature for MySQL 8.0+
+ 
+-------- CVE Security Recommendations --------------------------------------------------------------
+ℹ  Skipped due to --cvefile option undefined
+ 
+-------- Performance Metrics -----------------------------------------------------------------------
+ℹ  Up for: 30m 28s (144K q [78.883 qps], 11K conn, TX: 99M, RX: 20M)
+ℹ  Reads / Writes: 95% / 5%
+ℹ  Binary logging is enabled (GTID MODE: OFF)
+ℹ  Physical Memory     : 3.7G
+ℹ  Max MySQL memory    : 696.6M
+ℹ  Other process memory: 0B
+ℹ  Total buffers: 176.0M global + 1.9M per thread (151 max threads)
+ℹ  Performance_schema Max memory usage: 232M
+ℹ  Galera GCache Max memory usage: 0B
+✔  Maximum reached memory usage: 526.9M (13.88% of installed RAM)
+✔  Maximum possible memory usage: 696.6M (18.36% of installed RAM)
+✔  Overall possible memory usage with other process is compatible with memory available
+✔  Slow queries: 0% (1/144K)
+✔  Highest usage of available connections: 41% (62/151)
+✔  Aborted connections: 0.00% (0/11458)
+✘  Name resolution is active: a reverse name resolution is made for each new connection which can reduce performance
+ℹ  Query cache has been removed since MySQL 8.0
+✔  Sorts requiring temporary tables: 0% (93 temp sorts / 48K sorts)
+✘  Joins performed without indexes: 419
+✔  Temporary tables created on disk: 0% (0 on disk / 4K total)
+✔  Thread cache hit rate: 89% (1K created / 11K connections)
+✔  Table cache hit rate: 99% (191K hits / 192K requests)
+✔  table_definition_cache (2000) is greater than number of tables (338)
+✔  Open file limit used: 0% (6/10K)
+✔  Table locks acquired immediately: 100% (156 immediate / 156 locks)
+✔  Binlog cache memory access: 99.55% (3562 Memory / 3578 Total)
+ 
+-------- Performance schema ------------------------------------------------------------------------
+ℹ  Performance_schema is activated.
+ℹ  Memory used by Performance_schema: 232.7M
+ℹ  Sys schema is installed.
+ 
+-------- ThreadPool Metrics ------------------------------------------------------------------------
+ℹ  ThreadPool stat is disabled.
+ 
+-------- MyISAM Metrics ----------------------------------------------------------------------------
+ℹ  General MyIsam metrics:
+ℹ   +-- Total MyISAM Tables  : 0
+ℹ   +-- Total MyISAM indexes : 0B
+ℹ   +-- KB Size :16.0M
+ℹ   +-- KB Used Size :2.9M
+ℹ   +-- KB used :18.2%
+ℹ   +-- Read KB hit rate: 0% (0 cached / 0 reads)
+ℹ   +-- Write KB hit rate: 0% (0 cached / 0 writes)
+ℹ  No MyISAM table(s) detected ....
+ 
+-------- InnoDB Metrics ----------------------------------------------------------------------------
+ℹ  InnoDB is enabled.
+ℹ  InnoDB Thread Concurrency: 0
+✔  InnoDB File per table is activated
+✔  InnoDB Buffer Pool size ( 128.0M ) under limit for 64 bits architecture: (17179869184.0G )
+✔  InnoDB buffer pool / data size: 128.0M / 3.9M
+✘  Ratio InnoDB redo log capacity / InnoDB Buffer pool size (78.125%): 100.0M / 128.0M should be equal to 25%
+✔  InnoDB buffer pool instances: 1
+ℹ  Number of InnoDB Buffer Pool Chunk: 1 for 1 Buffer Pool Instance(s)
+✔  Innodb_buffer_pool_size aligned with Innodb_buffer_pool_chunk_size & Innodb_buffer_pool_instances
+✔  InnoDB Read buffer efficiency: 99.99% (17717629 hits / 17718850 total)
+✘  InnoDB Write Log efficiency: 89.19% (133056 hits / 149177 total)
+✔  InnoDB log waits: 0.00% (0 waits / 16121 writes)
+ 
+-------- Aria Metrics ------------------------------------------------------------------------------
+ℹ  Aria Storage Engine not available.
+ 
+-------- TokuDB Metrics ----------------------------------------------------------------------------
+ℹ  TokuDB is disabled.
+ 
+-------- XtraDB Metrics ----------------------------------------------------------------------------
+ℹ  XtraDB is disabled.
+ 
+-------- Galera Metrics ----------------------------------------------------------------------------
+ℹ  Galera is disabled.
+ 
+-------- Replication Metrics -----------------------------------------------------------------------
+ℹ  Galera Synchronous replication: NO
+ℹ  No replication slave(s) for this server.
+ℹ  Binlog format: ROW
+ℹ  XA support enabled: ON
+ℹ  Semi synchronous replication Master: Not Activated
+ℹ  Semi synchronous replication Slave: Not Activated
+ℹ  This is a standalone server
+ 
+-------- Recommendations ---------------------------------------------------------------------------
+General recommendations:
+    MySQL was started within the last 24 hours: recommendations may be inaccurate
+    Configure your accounts with ip or subnets only, then update your configuration with skip-name-resolve=ON
+    We will suggest raising the 'join_buffer_size' until JOINs not using indexes are found.
+             See https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_join_buffer_size
+    Be careful, increasing innodb_redo_log_capacity means higher crash recovery mean time
+Variables to adjust:
+    skip-name-resolve=ON
+    join_buffer_size (> 256.0K, or always use indexes with JOINs)
+    innodb_redo_log_capacity should be (=32M) if possible, so InnoDB Redo log Capacity equals 25% of buffer pool size.
+    innodb_log_buffer_size (> 16M)
