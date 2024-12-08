@@ -37,8 +37,8 @@
 ℹ  Skipped due to --cvefile option undefined
  
 -------- Performance Metrics -----------------------------------------------------------------------
-ℹ  Up for: 2h 6m 59s (2M q [320.990 qps], 158K conn, TX: 1G, RX: 268M)
-ℹ  Reads / Writes: 96% / 4%
+ℹ  Up for: 2h 35m 39s (2M q [314.998 qps], 197K conn, TX: 1G, RX: 319M)
+ℹ  Reads / Writes: 95% / 5%
 ℹ  Binary logging is disabled
 ℹ  Physical Memory     : 3.7G
 ℹ  Max MySQL memory    : 696.7M
@@ -46,25 +46,25 @@
 ℹ  Total buffers: 176.0M global + 1.9M per thread (151 max threads)
 ℹ  Performance_schema Max memory usage: 232M
 ℹ  Galera GCache Max memory usage: 0B
-✔  Maximum reached memory usage: 586.1M (15.44% of installed RAM)
+✔  Maximum reached memory usage: 683.4M (18.01% of installed RAM)
 ✔  Maximum possible memory usage: 696.7M (18.36% of installed RAM)
 ✔  Overall possible memory usage with other process is compatible with memory available
 ✔  Slow queries: 0% (0/2M)
-✔  Highest usage of available connections: 61% (93/151)
-✔  Aborted connections: 0.00% (1/158758)
+✘  Highest connection usage: 95% (144/151)
+✔  Aborted connections: 0.00% (3/197199)
 ℹ  Query cache has been removed since MySQL 8.0
-✔  Sorts requiring temporary tables: 0% (274 temp sorts / 254K sorts)
-✔  No joins without indexes
+✔  Sorts requiring temporary tables: 0% (277 temp sorts / 258K sorts)
+✘  Joins performed without indexes: 107
 ✔  Temporary tables created on disk: 0% (0 on disk / 330K total)
-✔  Thread cache hit rate: 70% (46K created / 158K connections)
-✔  Table cache hit rate: 99% (1M hits / 1M requests)
+✔  Thread cache hit rate: 70% (57K created / 197K connections)
+✔  Table cache hit rate: 99% (2M hits / 2M requests)
 ✔  table_definition_cache (2000) is greater than number of tables (338)
 ✔  Open file limit used: 0% (0/10K)
-✔  Table locks acquired immediately: 100% (607 immediate / 607 locks)
+✔  Table locks acquired immediately: 100% (715 immediate / 715 locks)
  
 -------- Performance schema ------------------------------------------------------------------------
 ℹ  Performance_schema is activated.
-ℹ  Memory used by Performance_schema: 232.8M
+ℹ  Memory used by Performance_schema: 232.9M
 ℹ  Sys schema is installed.
  
 -------- ThreadPool Metrics ------------------------------------------------------------------------
@@ -91,9 +91,9 @@
 ✔  InnoDB buffer pool instances: 1
 ℹ  Number of InnoDB Buffer Pool Chunk: 1 for 1 Buffer Pool Instance(s)
 ✔  Innodb_buffer_pool_size aligned with Innodb_buffer_pool_chunk_size & Innodb_buffer_pool_instances
-✔  InnoDB Read buffer efficiency: 100.00% (73967465 hits / 73969615 total)
-✔  InnoDB Write Log efficiency: 90.54% (1430404 hits / 1579945 total)
-✔  InnoDB log waits: 0.00% (0 waits / 149541 writes)
+✔  InnoDB Read buffer efficiency: 100.00% (80496476 hits / 80498646 total)
+✔  InnoDB Write Log efficiency: 90.10% (1726174 hits / 1915865 total)
+✔  InnoDB log waits: 0.00% (0 waits / 189691 writes)
  
 -------- Aria Metrics ------------------------------------------------------------------------------
 ℹ  Aria Storage Engine not available.
@@ -119,6 +119,13 @@
 -------- Recommendations ---------------------------------------------------------------------------
 General recommendations:
     MySQL was started within the last 24 hours: recommendations may be inaccurate
+    Reduce or eliminate persistent connections to reduce connection usage
+    We will suggest raising the 'join_buffer_size' until JOINs not using indexes are found.
+             See https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_join_buffer_size
     Be careful, increasing innodb_redo_log_capacity means higher crash recovery mean time
 Variables to adjust:
+    max_connections (> 151)
+    wait_timeout (< 28800)
+    interactive_timeout (< 28800)
+    join_buffer_size (> 256.0K, or always use indexes with JOINs)
     innodb_redo_log_capacity should be (=32M) if possible, so InnoDB Redo log Capacity equals 25% of buffer pool size.

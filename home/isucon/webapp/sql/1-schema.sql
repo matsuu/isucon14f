@@ -49,7 +49,7 @@ CREATE TABLE chair_locations
   PRIMARY KEY (id)
 )
   COMMENT = '椅子の現在位置情報テーブル';
-ALTER TABLE chair_locations ADD INDEX (chair_id);
+ALTER TABLE chair_locations ADD INDEX (chair_id, created_at);
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
