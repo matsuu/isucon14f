@@ -1,10 +1,5 @@
-# Note: You may want to look at the following page before setting the ULIMIT.
-#  http://wiki.nginx.org/CoreModule#worker_rlimit_nofile
-# Set the ulimit variable if you need defaults to change.
-#  Example: ULIMIT="-n 4096"
-#ULIMIT="-n 4096"
+# Defaults for nginx initscript
+# sourced by /etc/init.d/nginx
 
-# Define the stop schedule for nginx
-# see the start-stop-daemon --retry documentation for more information
-#
-#STOP_SCHEDULE="QUIT/5/TERM/5/KILL/5"
+# Additional options that are passed to nginx
+DAEMON_ARGS=""

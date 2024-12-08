@@ -1,0 +1,5 @@
+#pmlogconf-setup 2.0
+ident   metrics provided by pmdastatsd(1)
+probe   statsd.pmda.received > 0 ? include : exclude
+
+	statsd

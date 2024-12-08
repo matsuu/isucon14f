@@ -63,3 +63,5 @@ ubuntu:x:1000:
 isucon:x:1100:
 isuadmin:x:1110:
 mysql:x:113:
+pcp:x:988:
+nginx:x:987:

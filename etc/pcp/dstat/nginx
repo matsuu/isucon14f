@@ -1,0 +1,14 @@
+#
+# pcp-dstat(1) configuration file - see pcp-dstat(5)
+#
+
+[nginx]
+label = nginx
+colorstep = 50
+active = nginx.active
+accepts = nginx.accepts_count
+handled = nginx.handled_count
+requests = nginx.requests_count
+read = nginx.reading
+write = nginx.writing
+wait = nginx.waiting

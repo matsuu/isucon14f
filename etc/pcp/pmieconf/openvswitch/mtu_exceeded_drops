@@ -1,0 +1,38 @@
+#pmieconf-rules 1
+# --- DO NOT MODIFY THIS FILE --- see pmieconf(5)
+
+rule    openvswitch.tx_mtu_exceeded_drops
+        summary = "$rule$"
+        enumerate = hosts
+        predicate =
+"some_host (
+    some_inst (
+	instant( openvswitch.interface.stats.ovs_tx_mtu_exceeded_drops @0 ) -
+	instant( openvswitch.interface.stats.ovs_tx_mtu_exceeded_drops @1 ) > 0
+    )
+)"
+        enabled = no
+        version = 1
+        help =
+"Detect Open vSwitch transmission MTU-exceeded drops during the
+last sample interval.
+If this rule is enabled, the Open vSwitch metrics will be used;
+see pmdaopenvswitch(1).";
+
+string  rule
+        default = "Open vSwitch tx_mtu_exceeded drops"
+        modify  = no
+        display = no;
+
+string  action_expand
+        default = [%i:%v@%h]
+        display = yes
+        modify  = no;
+
+string  delta
+        default = "10 sec"
+        help = "Sample interval between evaluations of this rule.";
+
+string  holdoff
+        default = "1 min"
+        help = "logging interval";

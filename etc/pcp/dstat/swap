@@ -1,0 +1,8 @@
+#
+# pcp-dstat(1) configuration file - see pcp-dstat(5)
+#
+
+[swap]
+label = %I
+used = swapdev.length - swapdev.free
+free = swapdev.free
