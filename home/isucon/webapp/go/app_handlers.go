@@ -876,8 +876,8 @@ func appGetNearbyChairs(w http.ResponseWriter, r *http.Request) {
 	err = tx.SelectContext(
 		ctx,
 		&chairs,
-		`SELECT *, last_latitude, last_longitude FROM chairs WHERE ABS(? - last_latitude) + ABS(? - last_longitude) <= ? AND is_active`,
-		coordinate.Latitude, coordinate.Longitude, distance,
+		`SELECT *, last_latitude, last_longitude FROM chairs WHERE ABS(? - last_latitude) + ABS(? - last_longitude) <= ? AND is_active ORDER BY ABS(? - last_latitude) + ABS(? - last_longitude)`,
+		coordinate.Latitude, coordinate.Longitude, distance, coordinate.Latitude, coordinate.Longitude,
 	)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)
@@ -921,16 +921,7 @@ func appGetNearbyChairs(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	retrievedAt := &time.Time{}
-	err = tx.GetContext(
-		ctx,
-		retrievedAt,
-		`SELECT CURRENT_TIMESTAMP(6)`,
-	)
-	if err != nil {
-		writeError(w, http.StatusInternalServerError, err)
-		return
-	}
+	retrievedAt := time.Now()
 
 	writeJSON(w, http.StatusOK, &appGetNearbyChairsResponse{
 		Chairs:      nearbyChairs,
