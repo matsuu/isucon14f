@@ -13,8 +13,8 @@ sudo cat "${nginx_access_json}" | gzip -9c > "${data_dir}/nginx_access.json.gz"
 sudo cat "${nginx_error_log}" | gzip -9c > "${data_dir}/nginx_error.log.gz"
 sudo cat "${mysql_error_log}" | gzip -9c > "${data_dir}/mysql_error.log.gz"
 
-sudo mysqltuner > "${result_dir}/mysqltuner.txt"
-${HOME}/go/bin/slowquery2tsv -u isucon -p isucon > "${result_dir}/db.tsv"
+ssh 192.168.0.12 sudo mysqltuner > "${result_dir}/mysqltuner.txt"
+${HOME}/go/bin/slowquery2tsv -h 192.168.0.12 -u isucon -p isucon > "${result_dir}/db.tsv"
 
 #sudo cat "${nginx_access_log}" | kataribe -f "${HOME}/kataribe.toml" > "${result_dir}/kataribe.txt"
 #sudo cat "${mysql_slow_log}" | go-mysql-query-digest --limit 100% > "${result_dir}/pt-query-digest.txt"

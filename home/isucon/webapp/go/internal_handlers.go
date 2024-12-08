@@ -49,7 +49,6 @@ func internalGetMatching(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if !empty {
-			w.WriteHeader(http.StatusNoContent)
 			continue
 		}
 
