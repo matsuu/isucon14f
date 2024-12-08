@@ -154,6 +154,9 @@ ALTER TABLE chairs ADD COLUMN total_distance_updated_at DATETIME(6) INVISIBLE;
 ALTER TABLE chairs ADD COLUMN last_latitude INTEGER INVISIBLE;
 ALTER TABLE chairs ADD COLUMN last_longitude INTEGER INVISIBLE;
 ALTER TABLE chairs ADD COLUMN last_status ENUM ('MATCHING', 'ENROUTE', 'PICKUP', 'CARRYING', 'ARRIVED', 'COMPLETED') NULL COMMENT '状態' INVISIBLE;
+ALTER TABLE chairs ADD COLUMN speed INTEGER NULL COMMENT '移動速度' INVISIBLE;
+
+CREATE TRIGGER update_speed BEFORE INSERT ON chairs FOR EACH ROW SET NEW.speed = (SELECT speed FROM chair_models WHERE name = NEW.model);
 
 delimiter //
 
@@ -161,5 +164,6 @@ CREATE TRIGGER update_ride_statuses AFTER INSERT ON ride_statuses FOR EACH ROW B
 UPDATE chairs SET last_status = NEW.status WHERE id IN (SELECT chair_id FROM rides WHERE id = NEW.ride_id);
 END
 //
+
 
 delimiter ;

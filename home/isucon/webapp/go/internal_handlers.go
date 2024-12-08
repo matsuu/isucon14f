@@ -22,8 +22,17 @@ func internalGetMatching(w http.ResponseWriter, r *http.Request) {
 	for _, ride := range rides {
 		matched := &Chair{}
 		empty := false
+
+		d := calculateDistance(ride.PickupLatitude, ride.PickupLongitude, ride.DestinationLatitude, ride.DestinationLongitude)
+		var query string
+		if d < 20 {
+			query = "SELECT * FROM chairs WHERE is_active = TRUE ORDER BY ABS(? - last_latitude)+ABS(?-last_longitude), speed ASC LIMIT 1 OFFSET ?"
+		} else {
+			query = "SELECT * FROM chairs WHERE is_active = TRUE ORDER BY ABS(? - last_latitude)+ABS(?-last_longitude), speed DESC LIMIT 1 OFFSET ?"
+		}
+
 		for i := 0; i < 10; i++ {
-			if err := db.GetContext(ctx, matched, "SELECT * FROM chairs WHERE is_active = TRUE ORDER BY ABS(? - last_latitude)+ABS(?-last_longitude) ASC LIMIT 1 OFFSET ?", ride.PickupLatitude, ride.PickupLongitude, i+1); err != nil {
+			if err := db.GetContext(ctx, matched, query, ride.PickupLatitude, ride.PickupLongitude, i); err != nil {
 				if errors.Is(err, sql.ErrNoRows) {
 					w.WriteHeader(http.StatusNoContent)
 					return
@@ -41,7 +50,7 @@ func internalGetMatching(w http.ResponseWriter, r *http.Request) {
 		}
 		if !empty {
 			w.WriteHeader(http.StatusNoContent)
-			return
+			continue
 		}
 
 		if _, err := db.ExecContext(ctx, "UPDATE rides SET chair_id = ? WHERE id = ?", matched.ID, ride.ID); err != nil {
