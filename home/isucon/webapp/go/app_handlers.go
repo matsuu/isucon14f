@@ -876,7 +876,7 @@ func appGetNearbyChairs(w http.ResponseWriter, r *http.Request) {
 	err = tx.SelectContext(
 		ctx,
 		&chairs,
-		`SELECT *, last_latitude, last_longitude FROM chairs WHERE IFNULL(ABS(? - last_latitude) + ABS(? - last_longitude),0) <= ? AND is_active AND NOT EXISTS (SELECT * FROM rides WHERE rides.chair_id = chairs.id AND EXISTS (SELECT * FROM ride_statuses WHERE ride_id = rides.id AND status <> 'COMPLETED'))`,
+		`SELECT *, last_latitude, last_longitude FROM chairs WHERE ABS(? - last_latitude) + ABS(? - last_longitude) <= ? AND is_active = TRUE AND (last_status IS NULL OR last_status = 'COMPETELED')`,
 		coordinate.Latitude, coordinate.Longitude, distance,
 	)
 	if err != nil {

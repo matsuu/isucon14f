@@ -147,3 +147,19 @@ CREATE TABLE coupons
 ALTER TABLE coupons ADD INDEX (used_by);
 ALTER TABLE coupons ADD INDEX (user_id, code, used_by);
 ALTER TABLE coupons ADD INDEX (user_id, used_by, created_at);
+
+
+ALTER TABLE chairs ADD COLUMN total_distance INTEGER NOT NULL DEFAULT 0 INVISIBLE;
+ALTER TABLE chairs ADD COLUMN total_distance_updated_at DATETIME(6) INVISIBLE;
+ALTER TABLE chairs ADD COLUMN last_latitude INTEGER INVISIBLE;
+ALTER TABLE chairs ADD COLUMN last_longitude INTEGER INVISIBLE;
+ALTER TABLE chairs ADD COLUMN last_status ENUM ('MATCHING', 'ENROUTE', 'PICKUP', 'CARRYING', 'ARRIVED', 'COMPLETED') NULL COMMENT '状態' INVISIBLE;
+
+delimiter //
+
+CREATE TRIGGER update_ride_statuses AFTER INSERT ON ride_statuses FOR EACH ROW BEGIN
+UPDATE chairs SET last_status = NEW.status WHERE id IN (SELECT chair_id FROM rides WHERE id = NEW.ride_id);
+END
+//
+
+delimiter ;
