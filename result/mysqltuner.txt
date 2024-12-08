@@ -10,7 +10,7 @@
  
 -------- Storage Engine Statistics -----------------------------------------------------------------
 ℹ  Status: +ARCHIVE +BLACKHOLE +CSV -FEDERATED +InnoDB +MEMORY +MRG_MYISAM +MyISAM +PERFORMANCE_SCHEMA 
-ℹ  Data in InnoDB tables: 3.9M (Tables: 11)
+ℹ  Data in InnoDB tables: 13.6M (Tables: 11)
 ✔  Total fragmented tables: 0
  
 ✔  Currently running supported MySQL version 8.0.40-0ubuntu0.24.04.1
@@ -37,32 +37,32 @@
 ℹ  Skipped due to --cvefile option undefined
  
 -------- Performance Metrics -----------------------------------------------------------------------
-ℹ  Up for: 41m 41s (248K q [99.457 qps], 18K conn, TX: 141M, RX: 33M)
+ℹ  Up for: 1h 1m 2s (540K q [147.526 qps], 40K conn, TX: 264M, RX: 62M)
 ℹ  Reads / Writes: 95% / 5%
 ℹ  Binary logging is enabled (GTID MODE: OFF)
 ℹ  Physical Memory     : 3.7G
-ℹ  Max MySQL memory    : 696.6M
+ℹ  Max MySQL memory    : 696.7M
 ℹ  Other process memory: 0B
 ℹ  Total buffers: 176.0M global + 1.9M per thread (151 max threads)
 ℹ  Performance_schema Max memory usage: 232M
 ℹ  Galera GCache Max memory usage: 0B
-✔  Maximum reached memory usage: 527.0M (13.89% of installed RAM)
-✔  Maximum possible memory usage: 696.6M (18.36% of installed RAM)
+✔  Maximum reached memory usage: 561.3M (14.79% of installed RAM)
+✔  Maximum possible memory usage: 696.7M (18.36% of installed RAM)
 ✔  Overall possible memory usage with other process is compatible with memory available
-✔  Slow queries: 0% (1/248K)
-✔  Highest usage of available connections: 41% (62/151)
-✔  Aborted connections: 0.01% (1/18733)
+✔  Slow queries: 0% (1/540K)
+✔  Highest usage of available connections: 52% (80/151)
+✔  Aborted connections: 0.00% (1/40905)
 ✘  Name resolution is active: a reverse name resolution is made for each new connection which can reduce performance
 ℹ  Query cache has been removed since MySQL 8.0
-✔  Sorts requiring temporary tables: 0% (147 temp sorts / 86K sorts)
-✘  Joins performed without indexes: 636
-✔  Temporary tables created on disk: 0% (0 on disk / 20K total)
-✔  Thread cache hit rate: 88% (2K created / 18K connections)
-✔  Table cache hit rate: 99% (283K hits / 285K requests)
+✔  Sorts requiring temporary tables: 0% (232 temp sorts / 89K sorts)
+✘  Joins performed without indexes: 639
+✔  Temporary tables created on disk: 0% (0 on disk / 22K total)
+✔  Thread cache hit rate: 76% (9K created / 40K connections)
+✔  Table cache hit rate: 99% (487K hits / 489K requests)
 ✔  table_definition_cache (2000) is greater than number of tables (338)
 ✔  Open file limit used: 0% (6/10K)
-✔  Table locks acquired immediately: 100% (210 immediate / 210 locks)
-✔  Binlog cache memory access: 99.63% (6433 Memory / 6457 Total)
+✔  Table locks acquired immediately: 100% (264 immediate / 264 locks)
+✔  Binlog cache memory access: 99.78% (14229 Memory / 14261 Total)
  
 -------- Performance schema ------------------------------------------------------------------------
 ℹ  Performance_schema is activated.
@@ -88,14 +88,14 @@
 ℹ  InnoDB Thread Concurrency: 0
 ✔  InnoDB File per table is activated
 ✔  InnoDB Buffer Pool size ( 128.0M ) under limit for 64 bits architecture: (17179869184.0G )
-✔  InnoDB buffer pool / data size: 128.0M / 3.9M
+✔  InnoDB buffer pool / data size: 128.0M / 13.6M
 ✘  Ratio InnoDB redo log capacity / InnoDB Buffer pool size (78.125%): 100.0M / 128.0M should be equal to 25%
 ✔  InnoDB buffer pool instances: 1
 ℹ  Number of InnoDB Buffer Pool Chunk: 1 for 1 Buffer Pool Instance(s)
 ✔  Innodb_buffer_pool_size aligned with Innodb_buffer_pool_chunk_size & Innodb_buffer_pool_instances
-✔  InnoDB Read buffer efficiency: 100.00% (46901705 hits / 46902927 total)
-✘  InnoDB Write Log efficiency: 87.96% (201199 hits / 228749 total)
-✔  InnoDB log waits: 0.00% (0 waits / 27550 writes)
+✔  InnoDB Read buffer efficiency: 100.00% (61672251 hits / 61673475 total)
+✘  InnoDB Write Log efficiency: 86.07% (334998 hits / 389207 total)
+✔  InnoDB log waits: 0.00% (0 waits / 54209 writes)
  
 -------- Aria Metrics ------------------------------------------------------------------------------
 ℹ  Aria Storage Engine not available.

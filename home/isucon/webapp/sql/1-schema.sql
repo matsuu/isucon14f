@@ -35,6 +35,7 @@ CREATE TABLE chairs
   PRIMARY KEY (id)
 )
   COMMENT = '椅子情報テーブル';
+ALTER TABLE chairs ADD INDEX (owner_id);
 
 DROP TABLE IF EXISTS chair_locations;
 CREATE TABLE chair_locations
@@ -47,6 +48,7 @@ CREATE TABLE chair_locations
   PRIMARY KEY (id)
 )
   COMMENT = '椅子の現在位置情報テーブル';
+ALTER TABLE chair_locations ADD INDEX (chair_id);
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
@@ -93,6 +95,9 @@ CREATE TABLE rides
   PRIMARY KEY (id)
 )
   COMMENT = 'ライド情報テーブル';
+ALTER TABLE rides ADD INDEX (chair_id, updated_at DESC);
+ALTER TABLE rides ADD INDEX (chair_id, created_at DESC);
+ALTER TABLE rides ADD INDEX (user_id, created_at DESC);
 
 DROP TABLE IF EXISTS ride_statuses;
 CREATE TABLE ride_statuses
@@ -106,6 +111,10 @@ CREATE TABLE ride_statuses
   PRIMARY KEY (id)
 )
   COMMENT = 'ライドステータスの変更履歴テーブル';
+ALTER TABLE ride_statuses ADD INDEX (ride_id, created_at DESC);
+ALTER TABLE ride_statuses ADD INDEX (ride_id, chair_sent_at, created_at);
+ALTER TABLE ride_statuses ADD INDEX (ride_id, app_sent_at, created_at);
+
 
 DROP TABLE IF EXISTS owners;
 CREATE TABLE owners
@@ -134,3 +143,6 @@ CREATE TABLE coupons
   PRIMARY KEY (user_id, code)
 )
   COMMENT 'クーポンテーブル';
+ALTER TABLE coupons ADD INDEX (used_by);
+ALTER TABLE coupons ADD INDEX (user_id, code, used_by);
+ALTER TABLE coupons ADD INDEX (user_id, used_by, created_at);
