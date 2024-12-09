@@ -876,7 +876,7 @@ func appGetNearbyChairs(w http.ResponseWriter, r *http.Request) {
 	err = tx.SelectContext(
 		ctx,
 		&chairs,
-		`SELECT *, last_latitude, last_longitude FROM chairs WHERE ABS(? - last_latitude) + ABS(? - last_longitude) <= ? AND is_active ORDER BY ABS(? - last_latitude) + ABS(? - last_longitude)`,
+		`SELECT *, last_latitude, last_longitude FROM chairs WHERE ABS(? - last_latitude) + ABS(? - last_longitude) <= ? AND is_active AND (last_status IS NULL OR last_status = 'COMPLETED') ORDER BY ABS(? - last_latitude) + ABS(? - last_longitude)`,
 		coordinate.Latitude, coordinate.Longitude, distance, coordinate.Latitude, coordinate.Longitude,
 	)
 	if err != nil {
@@ -884,31 +884,8 @@ func appGetNearbyChairs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	nearbyChairs := []appGetNearbyChairsResponseChair{}
+	nearbyChairs := make([]appGetNearbyChairsResponseChair, 0, len(chairs))
 	for _, chair := range chairs {
-
-		rides := []*Ride{}
-		if err := tx.SelectContext(ctx, &rides, `SELECT * FROM rides WHERE chair_id = ? ORDER BY created_at DESC LIMIT 1`, chair.ID); err != nil {
-			writeError(w, http.StatusInternalServerError, err)
-			return
-		}
-
-		skip := false
-		for _, ride := range rides {
-			// 過去にライドが存在し、かつ、それが完了していない場合はスキップ
-			status, err := getLatestRideStatus(ctx, tx, ride.ID)
-			if err != nil {
-				writeError(w, http.StatusInternalServerError, err)
-				return
-			}
-			if status != "COMPLETED" {
-				skip = true
-				break
-			}
-		}
-		if skip {
-			continue
-		}
 
 		nearbyChairs = append(nearbyChairs, appGetNearbyChairsResponseChair{
 			ID:    chair.ID,
