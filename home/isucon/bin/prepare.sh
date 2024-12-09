@@ -25,7 +25,7 @@ EOF
 sudo systemctl restart isuride-go
 
 # mysql
-sudo mysql -e "CALL sys.ps_truncate_all_tables(FALSE);"
+mysql --login-path=isu2 -e "CALL sys.ps_truncate_all_tables(FALSE);"
 #sudo truncate -s 0 "${mysql_slow_log}"
 sudo truncate -s 0 "${mysql_error_log}"
 # sudo systemctl restart mysql

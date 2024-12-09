@@ -82,3 +82,5 @@ innodb_flush_log_at_trx_commit = 0
 innodb_flush_log_at_timeout = 3
 
 skip-name-resolve = 1
+
+thread_cache_size = 128
