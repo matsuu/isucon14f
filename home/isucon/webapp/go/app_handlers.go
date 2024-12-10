@@ -285,7 +285,7 @@ type executableGet interface {
 
 func getLatestRideStatus(ctx context.Context, tx executableGet, rideID string) (string, error) {
 	status := ""
-	if err := tx.GetContext(ctx, &status, `SELECT status FROM ride_statuses WHERE ride_id = ? ORDER BY created_at DESC LIMIT 1`, rideID); err != nil {
+	if err := tx.GetContext(ctx, &status, `SELECT IFNULL(last_status,'COMPLETED') FROM rides WHERE id = ?`, rideID); err != nil {
 		return "", err
 	}
 	return status, nil

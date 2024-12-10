@@ -12,3 +12,6 @@ ff02::3 ip6-allhosts
 # ISURIDE IP for matching requests
 127.0.0.1 isuride.xiv.isucon.net
 # END ANSIBLE MANAGED BLOCK
+192.168.0.11 isu1
+192.168.0.12 isu2
+192.168.0.13 isu3
