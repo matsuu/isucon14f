@@ -24,6 +24,13 @@ EOF
 )
 sudo systemctl restart isuride-go
 
+sudo systemctl stop isuride-matcher
+(
+  cd ${HOME}/webapp/sql
+  ./init.sh
+)
+sudo systemctl start isuride-matcher
+
 # mysql
 mysql --login-path=isu2 -e "CALL sys.ps_truncate_all_tables(FALSE);"
 #sudo truncate -s 0 "${mysql_slow_log}"
