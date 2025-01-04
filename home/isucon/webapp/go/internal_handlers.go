@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -21,8 +22,8 @@ func internalGetMatching(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var chairs []ChairWithLast
-	if err := db.SelectContext(ctx, &chairs, "SELECT *, IFNULL(last_latitude,0) AS last_latitude, IFNULL(last_longitude,0) AS last_longitude FROM chairs WHERE is_active = TRUE AND id NOT IN (SELECT chair_id FROM rides WHERE chair_id IS NOT NULL AND id IN (SELECT ride_id FROM ride_statuses GROUP BY ride_id HAVING COUNT(chair_sent_at) < 6)) AND id NOT IN (SELECT chair_id FROM rides LEFT JOIN ride_statuses ON rides.id = ride_statuses.ride_id WHERE ride_statuses.ride_id IS null)"); err != nil {
+	var chairs []ChairWithLastSpeed
+	if err := db.SelectContext(ctx, &chairs, "SELECT *, IFNULL(last_latitude,0) AS last_latitude, IFNULL(last_longitude,0) AS last_longitude, speed FROM chairs WHERE is_active = TRUE AND id NOT IN (SELECT chair_id FROM rides WHERE chair_id IS NOT NULL AND id IN (SELECT ride_id FROM ride_statuses GROUP BY ride_id HAVING COUNT(chair_sent_at) < 6)) AND id NOT IN (SELECT chair_id FROM rides LEFT JOIN ride_statuses ON rides.id = ride_statuses.ride_id WHERE ride_statuses.ride_id IS null)"); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			w.WriteHeader(http.StatusNoContent)
 			return
@@ -32,19 +33,31 @@ func internalGetMatching(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, ride := range rides {
+		// chairの在庫がなければスキップ
+		if len(chairs) == 0 {
+			log.Print("no chair found")
+			break
+		}
+
 		threthold := 9999999999
 		target := -1
 		for i, chair := range chairs {
-			deliver := calculateDistance(chair.LastLatitude, chair.LastLongitude, ride.PickupLatitude, ride.PickupLongitude)
-			d := calculateDistance(ride.PickupLatitude, ride.PickupLongitude, ride.DestinationLatitude, ride.DestinationLongitude)
-			if deliver+d < threthold {
+			pickupDeliver := calculateDistance(chair.LastLatitude, chair.LastLongitude, ride.PickupLatitude, ride.PickupLongitude)
+			rideDeliver := calculateDistance(ride.PickupLatitude, ride.PickupLongitude, ride.DestinationLatitude, ride.DestinationLongitude)
+			v := (pickupDeliver + rideDeliver) / chair.Speed
+			if v < threthold {
 				target = i
-				threthold = deliver + d
+				threthold = v
 			}
 		}
 		if target == -1 {
 			writeError(w, http.StatusInternalServerError, fmt.Errorf("no chair found: ride_id:%v, threthold:%v", ride.ID, threthold))
 			return
+		}
+		// 100を超える場合はスキップ
+		if threthold > 100 {
+			log.Printf("threthold:%d, ride_id:%v", threthold, ride.ID)
+			continue
 		}
 		matched := chairs[target]
 		chairs = append(chairs[:target], chairs[target+1:]...)
