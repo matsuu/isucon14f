@@ -145,7 +145,7 @@ CREATE TABLE coupons
 )
   COMMENT 'クーポンテーブル';
 ALTER TABLE coupons ADD INDEX (used_by);
-ALTER TABLE coupons ADD INDEX (user_id, code, used_by);
+ALTER TABLE coupons ADD INDEX (code, user_id, used_by);
 ALTER TABLE coupons ADD INDEX (user_id, used_by, created_at);
 
 ALTER TABLE chairs ADD COLUMN total_distance INTEGER NOT NULL DEFAULT 0 INVISIBLE;
