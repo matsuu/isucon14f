@@ -865,15 +865,8 @@ func appGetNearbyChairs(w http.ResponseWriter, r *http.Request) {
 
 	coordinate := Coordinate{Latitude: lat, Longitude: lon}
 
-	tx, err := db.Beginx()
-	if err != nil {
-		writeError(w, http.StatusInternalServerError, err)
-		return
-	}
-	defer tx.Rollback()
-
 	chairs := []ChairWithLast{}
-	err = tx.SelectContext(
+	err = db.SelectContext(
 		ctx,
 		&chairs,
 		`SELECT *, last_latitude, last_longitude FROM chairs WHERE ABS(? - last_latitude) + ABS(? - last_longitude) <= ? AND is_active AND (last_status IS NULL OR last_status = 'COMPLETED') ORDER BY ABS(? - last_latitude) + ABS(? - last_longitude)`,
