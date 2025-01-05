@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -35,7 +34,6 @@ func internalGetMatching(w http.ResponseWriter, r *http.Request) {
 	for _, ride := range rides {
 		// chairの在庫がなければスキップ
 		if len(chairs) == 0 {
-			log.Print("no chair found")
 			break
 		}
 
@@ -56,7 +54,6 @@ func internalGetMatching(w http.ResponseWriter, r *http.Request) {
 		}
 		// 100を超える場合はスキップ
 		if threthold > 100 {
-			log.Printf("threthold:%d, ride_id:%v", threthold, ride.ID)
 			continue
 		}
 		matched := chairs[target]
